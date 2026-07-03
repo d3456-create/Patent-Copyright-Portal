@@ -621,29 +621,6 @@ function renderPatentsDashboard(){
   const published = p.filter(x=>x.status==='Published').length;
   const granted = p.filter(x=>x.status==='Granted').length;
 
-  const rows = p.map(r=>`
-    <tr>
-      <td class="title-cell">${esc(truncate(r.title,60))}</td>
-      <td class="muted">${esc(r.applicationNumber || '—')}</td>
-      <td class="muted">${esc(r.type || '—')}</td>
-      <td><span class="badge ${badgeClass(r.status)}">${esc(r.status||'—')}</span></td>
-      <td class="muted">${fmtDate(r.filingDate)}</td>
-      <td>
-        <div class="row-actions">
-          <button class="icon-btn" title="View" onclick="openView('patent','${r.id}')">${ICON_EYE}</button>
-          <button class="icon-btn" title="Edit" onclick="goEdit('${r.id}')">${ICON_EDIT}</button>
-          <button class="icon-btn danger" title="Delete" onclick="confirmDelete('patent','${r.id}')">${ICON_TRASH}</button>
-        </div>
-      </td>
-    </tr>`).join('');
-
-  const tableOrEmpty = total===0
-    ? `<div class="empty-state">No patents submitted yet.<br>Add your first patent to get started.<div><button class="btn btn-maroon" onclick="goAdd()">+ ADD PATENT</button></div></div>`
-    : `<table>
-        <thead><tr><th>Patent Title</th><th>Application No</th><th>Type</th><th>Status</th><th>Filing Date</th><th>Actions</th></tr></thead>
-        <tbody>${rows}</tbody>
-       </table>`;
-
   return `
     <div class="page-head">
       <div><h2>My Patent Summary</h2><p class="sub">All faculty patent submissions, synced live for every user.</p></div>
@@ -654,10 +631,6 @@ function renderPatentsDashboard(){
       <div class="stat-card c-navy"><div class="stat-num">${filed}</div><div class="stat-label">Filed</div></div>
       <div class="stat-card c-amber"><div class="stat-num">${published}</div><div class="stat-label">Published</div></div>
       <div class="stat-card c-green"><div class="stat-num">${granted}</div><div class="stat-label">Granted</div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><h3>My Patents</h3></div>
-      ${tableOrEmpty}
     </div>
   `;
 }
@@ -672,30 +645,6 @@ function renderCopyrightDashboard(){
   const registered = c.filter(x=>x.status==='Registered').length;
   const waiting = c.filter(x=>x.status==='Waiting').length;
 
-  const rows = c.map(r=>`
-    <tr>
-      <td class="title-cell">${esc(truncate(r.title,50))}</td>
-      <td class="muted">${esc(r.diaryNumber || '—')}</td>
-      <td class="muted">${esc(r.classOfWork || '—')}</td>
-      <td class="muted">${esc(r.author || '—')}</td>
-      <td class="muted">${fmtDate(r.filingDate)}</td>
-      <td><span class="badge ${badgeClass(r.status)}">${esc(r.status||'—')}</span></td>
-      <td>
-        <div class="row-actions">
-          <button class="icon-btn" title="View" onclick="openView('copyright','${r.id}')">${ICON_EYE}</button>
-          <button class="icon-btn" title="Edit" onclick="goEdit('${r.id}')">${ICON_EDIT}</button>
-          <button class="icon-btn danger" title="Delete" onclick="confirmDelete('copyright','${r.id}')">${ICON_TRASH}</button>
-        </div>
-      </td>
-    </tr>`).join('');
-
-  const tableOrEmpty = total===0
-    ? `<div class="empty-state">No copyrights submitted yet.<br>Add your first copyright record to get started.<div><button class="btn btn-maroon" onclick="goAdd()">+ ADD COPYRIGHT</button></div></div>`
-    : `<table>
-        <thead><tr><th>Title of Work</th><th>Diary No.</th><th>Class of Work</th><th>Author / Faculty</th><th>Filing Date</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>${rows}</tbody>
-       </table>`;
-
   return `
     <div class="page-head">
       <div><h2>Copyright Records</h2><p class="sub">All faculty copyright submissions, synced live for every user.</p></div>
@@ -706,10 +655,6 @@ function renderCopyrightDashboard(){
       <div class="stat-card c-navy"><div class="stat-num">${applied}</div><div class="stat-label">Applied</div></div>
       <div class="stat-card c-amber"><div class="stat-num">${waiting}</div><div class="stat-label">Waiting</div></div>
       <div class="stat-card c-green"><div class="stat-num">${registered}</div><div class="stat-label">Registered</div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><h3>All Copyrights (${total})</h3></div>
-      ${tableOrEmpty}
     </div>
   `;
 }
